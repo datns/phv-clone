@@ -1,10 +1,10 @@
-import {SafeAreaView} from 'react-native-safe-area-context';
-import {Text} from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import { Text } from 'react-native';
 
 interface Props {
   screenName: string;
 }
-const EmptyScreen: React.FC<Props> = ({screenName}) => {
+const EmptyScreen: React.FC<Props> = ({ screenName }) => {
   return (
     <SafeAreaView>
       <Text>{`This is ${screenName} screen`}</Text>

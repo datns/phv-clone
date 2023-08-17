@@ -1,11 +1,12 @@
 import React from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import Icon from 'react-native-vector-icons/Ionicons';
 import HomeScreen from '@screens/Home';
 import CoinScreen from '@screens/Coin';
 import JobScreen from '@screens/Job';
 import MenuScreen from '@screens/Menu';
 import { SCREEN_NAME } from '@src/constants';
+import TabBarIcon from '@navigation/BottomTabNavigator/TabBarIcon';
+import { Palette, Spacing, Typography } from '@src/theme';
 
 const Tab = createBottomTabNavigator();
 
@@ -16,16 +17,20 @@ function BottomTabNavigator() {
         headerShown: false,
         tabBarStyle: {
           position: 'absolute',
-          paddingTop: 8,
+          paddingTop: Spacing.s,
+          height: 84,
         },
+        tabBarActiveTintColor: Palette.blue,
+        tabBarLabelStyle: Typography.status,
+        tabBarInactiveTintColor: Palette.timberwolf,
       }}>
       <Tab.Screen
         name={SCREEN_NAME.HOME}
         component={HomeScreen}
         options={{
           tabBarLabel: 'Home',
-          tabBarIcon: ({ color }) => (
-            <Icon name="home-outline" color={color} size={32} />
+          tabBarIcon: ({ focused }) => (
+            <TabBarIcon name="home-outline" focused={focused} />
           ),
         }}
       />
@@ -34,8 +39,8 @@ function BottomTabNavigator() {
         component={CoinScreen}
         options={{
           tabBarLabel: 'Coin',
-          tabBarIcon: ({ color }) => (
-            <Icon name="logo-bitcoin" color={color} size={32} />
+          tabBarIcon: ({ focused }) => (
+            <TabBarIcon name="logo-bitcoin" focused={focused} />
           ),
         }}
       />
@@ -44,8 +49,8 @@ function BottomTabNavigator() {
         component={JobScreen}
         options={{
           tabBarLabel: 'Job',
-          tabBarIcon: ({ color }) => (
-            <Icon name="car" color={color} size={32} />
+          tabBarIcon: ({ focused }) => (
+            <TabBarIcon name="car" focused={focused} />
           ),
         }}
       />
@@ -54,8 +59,8 @@ function BottomTabNavigator() {
         component={MenuScreen}
         options={{
           tabBarLabel: 'Menu',
-          tabBarIcon: ({ color }) => (
-            <Icon name="menu-outline" color={color} size={32} />
+          tabBarIcon: ({ focused }) => (
+            <TabBarIcon name="menu-outline" focused={focused} />
           ),
         }}
       />
