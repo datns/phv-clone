@@ -23,7 +23,8 @@ function BottomTabNavigator() {
         tabBarActiveTintColor: Palette.blue,
         tabBarLabelStyle: Typography.status,
         tabBarInactiveTintColor: Palette.timberwolf,
-      }}>
+      }}
+      initialRouteName={'Job'}>
       <Tab.Screen
         name={SCREEN_NAME.HOME}
         component={HomeScreen}

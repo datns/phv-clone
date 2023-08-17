@@ -6,7 +6,7 @@ interface Props {
 }
 const EmptyScreen: React.FC<Props> = ({ screenName }) => {
   return (
-    <SafeAreaView>
+    <SafeAreaView style={{ flex: 1 }}>
       <Text>{`This is ${screenName} screen`}</Text>
     </SafeAreaView>
   );
