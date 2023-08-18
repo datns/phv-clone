@@ -1,11 +1,20 @@
-import React, { useMemo, useRef, useState } from 'react';
+import React, { useCallback, useMemo, useRef, useState } from 'react';
 import BottomSheet from '@gorhom/bottom-sheet';
-import { StyleSheet, Text, View } from 'react-native';
+import { Dimensions, StyleSheet, Text, View } from 'react-native';
 import { Palette, Spacing, Typography } from '@src/theme';
 import { formatDisplayedPrice } from '@src/utils';
 import Icon from 'react-native-vector-icons/Ionicons';
 import GraphicJob from '@components/GraphicJob';
 import Swiper from '@components/Swiper';
+import Animated, {
+  interpolate,
+  useAnimatedStyle,
+  useSharedValue,
+  withTiming,
+} from 'react-native-reanimated';
+import { SafeAreaView } from 'react-native-safe-area-context';
+
+const HEIGHT = Dimensions.get('window').height;
 
 const styles = StyleSheet.create({
   contentContainer: {
@@ -33,7 +42,7 @@ const styles = StyleSheet.create({
     ...Typography.subHeading,
     marginBottom: Spacing.xs,
   },
-  vehicleId: {
+  jobId: {
     color: Palette.darkGrey,
     ...Typography.body,
   },
@@ -98,13 +107,44 @@ const styles = StyleSheet.create({
     ...Typography.bodyBold,
     color: Palette.black,
   },
+  headerOverlay: {
+    position: 'absolute',
+    left: 0,
+    right: 0,
+    top: -0.2 * HEIGHT,
+    height: 0.2 * HEIGHT,
+    backgroundColor: Palette.white,
+  },
+  headerOverlayContent: {
+    alignItems: 'center',
+    paddingVertical: Spacing.m,
+    justifyContent: 'space-between',
+    flex: 1,
+  },
+  vehicleId: {
+    ...Typography.bodyBold,
+    color: Palette.black,
+  },
+  priceHeaderWrapper: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  priceHeader: {
+    ...Typography.heading,
+    marginRight: Spacing.m,
+  },
 });
 
 const BottomSheetInfo: React.FC = () => {
   const bottomSheetRef = useRef<BottomSheet>(null);
 
-  const snapPoints = useMemo(() => ['20%', '55%', '90%'], []);
+  const snapPoints = useMemo(
+    () => [0.2 * HEIGHT, 0.55 * HEIGHT, 0.9 * HEIGHT],
+    [],
+  );
 
+  const animatedPosition = useSharedValue(0);
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
   const data = {
@@ -130,54 +170,103 @@ const BottomSheetInfo: React.FC = () => {
         <Text style={styles.id}>12</Text>
         <View style={styles.monthVehicleIdWrapper}>
           <Text style={styles.month}>December</Text>
-          <Text style={styles.vehicleId}>N95899</Text>
+          <Text style={styles.jobId}>N95899</Text>
         </View>
         <Text style={styles.price}>{formatDisplayedPrice(65)}</Text>
       </View>
     );
   };
 
+  // @ts-ignore
+  const overlayHeaderStyle = useAnimatedStyle(() => {
+    const translateY = interpolate(
+      animatedPosition.value,
+      [0, 1],
+      [0, 0.205 * HEIGHT],
+    );
+
+    return {
+      opacity: animatedPosition.value,
+      transform: [
+        {
+          translateY,
+        },
+      ],
+    };
+  }, []);
+
+  const onAnimate = useCallback((_: number, to: number) => {
+    if (to === 2) {
+      animatedPosition.value = withTiming(1);
+    } else {
+      animatedPosition.value = withTiming(0);
+    }
+  }, []);
+
   return (
-    <BottomSheet
-      ref={bottomSheetRef}
-      index={1}
-      snapPoints={snapPoints}
-      handleComponent={renderHandleComponent}>
-      <View style={styles.contentContainer}>
-        <View style={styles.contentHeader}>
-          <View style={styles.wrapperIcon}>
+    <>
+      <BottomSheet
+        ref={bottomSheetRef}
+        index={1}
+        snapPoints={snapPoints}
+        onAnimate={onAnimate}
+        handleComponent={renderHandleComponent}>
+        <View style={styles.contentContainer}>
+          <View style={styles.contentHeader}>
+            <View style={styles.wrapperIcon}>
+              <Icon
+                name="shield-checkmark"
+                size={Spacing.xl}
+                color={Palette.white}
+              />
+            </View>
+            <Text style={styles.type}>STANDARD RIDE</Text>
+          </View>
+          <View style={styles.routeContainer}>
+            <GraphicJob height={Spacing.xxl * 4} />
+            <View style={styles.locationInfo}>
+              <Text style={styles.name}>{pickup.name}</Text>
+              <Text style={styles.address}>{pickup.address}</Text>
+              <Text style={styles.status}>Picked up</Text>
+              <Text style={styles.completedTime}>6:06pm</Text>
+              <Text style={styles.name}>{destination.name}</Text>
+              <Text style={styles.address}>
+                {destination.address}
+              </Text>
+              <Text style={styles.status}>Dropped-off</Text>
+            </View>
+          </View>
+          <View style={styles.dateContainer}>
+            <Text style={styles.jobDate}>Job Date</Text>
+            <Text style={styles.date}>12/12/2023</Text>
+          </View>
+          <Swiper
+            isLoading={isLoading}
+            onFinishSwipe={() => {
+              setIsLoading(true);
+            }}
+          />
+        </View>
+      </BottomSheet>
+      <Animated.View
+        style={[overlayHeaderStyle, styles.headerOverlay]}>
+        <SafeAreaView
+          edges={['top']}
+          style={styles.headerOverlayContent}>
+          <Text style={styles.vehicleId}>LY-4b3dec</Text>
+          <View style={styles.priceHeaderWrapper}>
+            <Text style={styles.priceHeader}>
+              {formatDisplayedPrice(price)}
+            </Text>
             <Icon
-              name="shield-checkmark"
-              size={Spacing.xl}
-              color={Palette.white}
+              name="refresh"
+              color={Palette.blue}
+              size={Spacing.l}
             />
           </View>
-          <Text style={styles.type}>STANDARD RIDE</Text>
-        </View>
-        <View style={styles.routeContainer}>
-          <GraphicJob height={Spacing.xxl * 4} />
-          <View style={styles.locationInfo}>
-            <Text style={styles.name}>{pickup.name}</Text>
-            <Text style={styles.address}>{pickup.address}</Text>
-            <Text style={styles.status}>Picked up</Text>
-            <Text style={styles.completedTime}>6:06pm</Text>
-            <Text style={styles.name}>{destination.name}</Text>
-            <Text style={styles.address}>{destination.address}</Text>
-            <Text style={styles.status}>Dropped-off</Text>
-          </View>
-        </View>
-        <View style={styles.dateContainer}>
-          <Text style={styles.jobDate}>Job Date</Text>
-          <Text style={styles.date}>12/12/2023</Text>
-        </View>
-        <Swiper
-          isLoading={isLoading}
-          onFinishSwipe={() => {
-            setIsLoading(true);
-          }}
-        />
-      </View>
-    </BottomSheet>
+        </SafeAreaView>
+      </Animated.View>
+    </>
   );
 };
 

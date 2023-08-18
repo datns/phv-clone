@@ -26,6 +26,9 @@ export const Typography = StyleSheet.create({
     fontSize: 32,
     fontWeight: '600',
   },
+  heading: {
+    fontSize: 32,
+  },
   subHeading: {
     fontSize: 20,
     fontWeight: 'normal',

@@ -1,8 +1,11 @@
-import React, { useMemo, useRef } from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import React from 'react';
+import { StyleSheet, TouchableOpacity, View } from 'react-native';
 import MapView, { PROVIDER_DEFAULT } from 'react-native-maps';
-import BottomSheet from '@gorhom/bottom-sheet';
-import BottomSheetInfo from "@screens/JobDetail/BottomSheetInfo";
+import BottomSheetInfo from '@screens/JobDetail/BottomSheetInfo';
+import Icon from 'react-native-vector-icons/Ionicons';
+import { Palette, Spacing } from '@src/theme';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { useNavigation } from '@react-navigation/native';
 const styles = StyleSheet.create({
   map: {
     position: 'absolute',
@@ -14,11 +17,31 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 24,
-    backgroundColor: 'grey',
+    backgroundColor: Palette.white,
+  },
+  backButton: {
+    width: Spacing.xxl,
+    aspectRatio: 1,
+    borderRadius: Spacing.xxl / 2,
+    backgroundColor: Palette.white,
+    position: 'absolute',
+    left: Spacing.s,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
 });
 const JobDetailScreen: React.FC = () => {
- ;
+  const inset = useSafeAreaInsets();
+  const navigation = useNavigation();
+  const renderBackButton = () => {
+    return (
+      <TouchableOpacity
+        style={[styles.backButton, { top: inset.top + Spacing.s }]}
+        onPress={navigation.goBack}>
+        <Icon name="chevron-back" size={Spacing.l} />
+      </TouchableOpacity>
+    );
+  };
   return (
     <View style={styles.container}>
       <MapView
@@ -32,6 +55,7 @@ const JobDetailScreen: React.FC = () => {
         }}
       />
       <BottomSheetInfo />
+      {renderBackButton()}
     </View>
   );
 };
