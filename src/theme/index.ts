@@ -10,6 +10,7 @@ export const Palette = {
   lightGrey: '#F5F5F5',
   darkGrey: '#B0B2B8',
   orange: '#F28123',
+  green: '#3EC300',
 };
 
 export const Typography = StyleSheet.create({
@@ -17,8 +18,20 @@ export const Typography = StyleSheet.create({
     fontSize: 15,
     fontWeight: 'normal',
   },
-  heading: {
-    fontSize: 30,
+  statusBold: {
+    fontSize: 15,
+    fontWeight: '600',
+  },
+  headingBold: {
+    fontSize: 32,
+    fontWeight: '600',
+  },
+  subHeading: {
+    fontSize: 20,
+    fontWeight: 'normal',
+  },
+  subHeadingBold: {
+    fontSize: 20,
     fontWeight: '600',
   },
   bodyBold: {
@@ -27,6 +40,7 @@ export const Typography = StyleSheet.create({
   },
   body: {
     fontSize: 18,
+    lineHeight: 24,
   },
 });
 
@@ -35,6 +49,7 @@ export const Spacing = {
   s: 8,
   m: 16,
   l: 24,
-  xl: 36,
-  xxl: 48,
+  xl: 32,
+  xxl: 40,
+  xxxl: 56,
 };

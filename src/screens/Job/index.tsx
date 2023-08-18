@@ -27,7 +27,7 @@ const styles = StyleSheet.create({
   },
   title: {
     color: Palette.darkBlue,
-    ...Typography.heading,
+    ...Typography.headingBold,
     marginLeft: Spacing.m,
   },
   tabBar: {

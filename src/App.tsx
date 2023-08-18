@@ -4,14 +4,16 @@ import {
   initialWindowMetrics,
 } from 'react-native-safe-area-context';
 import { NavigationContainer } from '@react-navigation/native';
-import BottomTabNavigator from '@navigation/BottomTabNavigator';
 import MainStackNavigator from '@src/navigation';
+import { GestureHandlerRootView } from "react-native-gesture-handler";
 
 const App: React.FC = () => {
   return (
     <SafeAreaProvider initialMetrics={initialWindowMetrics}>
       <NavigationContainer>
-        <MainStackNavigator />
+        <GestureHandlerRootView style={{ flex: 1}}>
+          <MainStackNavigator />
+        </GestureHandlerRootView>
       </NavigationContainer>
     </SafeAreaProvider>
   );
