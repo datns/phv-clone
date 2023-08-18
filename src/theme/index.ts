@@ -2,13 +2,14 @@ import { StyleSheet } from 'react-native';
 
 export const Palette = {
   white: '#FFFFFF',
-  black: '#0000000',
+  black: '#000000',
   darkBlue: '#011023',
   blue: '#1789FC',
   timberwolf: '#D1D1D1',
   transparent: 'transparent',
   lightGrey: '#F5F5F5',
   darkGrey: '#B0B2B8',
+  orange: '#F28123',
 };
 
 export const Typography = StyleSheet.create({

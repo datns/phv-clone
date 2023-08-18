@@ -16,6 +16,9 @@ import {
 import Ongoing from '@screens/Job/TabCategory/Ongoing';
 import Available from '@screens/Job/TabCategory/Available';
 import History from '@screens/Job/TabCategory/History';
+import Icon from 'react-native-vector-icons/Ionicons';
+import LinearGradient from 'react-native-linear-gradient';
+import { useBottomTabBarHeight } from '@react-navigation/bottom-tabs';
 
 const styles = StyleSheet.create({
   container: {
@@ -30,6 +33,7 @@ const styles = StyleSheet.create({
   tabBar: {
     flexDirection: 'row',
     marginTop: Spacing.l,
+    marginBottom: Spacing.m,
   },
   tabBarItem: {
     borderRadius: Spacing.l,
@@ -47,6 +51,22 @@ const styles = StyleSheet.create({
     color: Palette.darkGrey,
     ...Typography.body,
   },
+  gradientView: {
+    position: 'absolute',
+    left: 0,
+    right: 0,
+    bottom: 0,
+    justifyContent: 'flex-end',
+    paddingHorizontal: Spacing.m,
+  },
+  btnFlash: {
+    backgroundColor: Palette.white,
+    width: Spacing.xxl,
+    height: Spacing.xxl,
+    borderRadius: Spacing.xxl / 2,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
 });
 
 interface Route {
@@ -59,12 +79,21 @@ export type SceneTab = SceneRendererProps & {
 };
 
 const JobScreen: React.FC = () => {
+  const bottomTabHeight = useBottomTabBarHeight();
   const layout = useWindowDimensions();
   const [index, setIndex] = React.useState<number>(0);
   const [routes] = React.useState<Route[]>([
     { key: 'ongoing', title: 'Ongoing' },
     { key: 'available', title: 'Available' },
     { key: 'history', title: 'History' },
+  ]);
+
+  const gradientViewStyle = StyleSheet.flatten([
+    styles.gradientView,
+    {
+      height: bottomTabHeight + 200,
+      paddingBottom: bottomTabHeight + Spacing.l,
+    },
   ]);
 
   const renderScene = ({ route }: SceneTab) => {
@@ -120,6 +149,18 @@ const JobScreen: React.FC = () => {
         initialLayout={{ width: layout.width }}
         renderTabBar={renderTabBar}
       />
+      <LinearGradient
+        pointerEvents="box-none"
+        colors={[Palette.transparent, Palette.black]}
+        style={gradientViewStyle}>
+        <TouchableOpacity style={styles.btnFlash}>
+          <Icon
+            name="flash"
+            size={Spacing.l}
+            color={Palette.orange}
+          />
+        </TouchableOpacity>
+      </LinearGradient>
     </SafeAreaView>
   );
 };

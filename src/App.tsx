@@ -5,12 +5,13 @@ import {
 } from 'react-native-safe-area-context';
 import { NavigationContainer } from '@react-navigation/native';
 import BottomTabNavigator from '@navigation/BottomTabNavigator';
+import MainStackNavigator from '@src/navigation';
 
 const App: React.FC = () => {
   return (
     <SafeAreaProvider initialMetrics={initialWindowMetrics}>
       <NavigationContainer>
-        <BottomTabNavigator />
+        <MainStackNavigator />
       </NavigationContainer>
     </SafeAreaProvider>
   );

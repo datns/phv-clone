@@ -1,5 +1,11 @@
 import React from 'react';
-import { Dimensions, StyleSheet, Text, View } from 'react-native';
+import {
+  Dimensions,
+  StyleSheet,
+  Text,
+  View,
+  TouchableOpacity,
+} from 'react-native';
 import { Palette, Spacing, Typography } from '@src/theme';
 import {
   convertEstimatedTime,
@@ -10,6 +16,7 @@ import { JobType } from '@src/types';
 
 interface Props {
   data: JobType;
+  onPress: () => void;
 }
 
 const styles = StyleSheet.create({
@@ -20,11 +27,10 @@ const styles = StyleSheet.create({
     borderRadius: Spacing.xs,
     padding: Spacing.l,
   },
-  header: {
+  namePriceContainer: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    marginBottom: Spacing.l,
   },
   name: {
     ...Typography.bodyBold,
@@ -39,6 +45,8 @@ const styles = StyleSheet.create({
   estimationWrapper: {
     flexDirection: 'row',
     alignItems: 'center',
+    marginBottom: Spacing.l,
+    alignSelf: 'flex-end',
   },
   estimatedTime: {
     color: Palette.darkGrey,
@@ -72,31 +80,29 @@ const styles = StyleSheet.create({
     marginTop: Spacing.xs,
   },
 });
-const CardJob: React.FC<Props> = ({ data }) => {
+const CardJob: React.FC<Props> = ({ data, onPress }) => {
   const { pickup, destination } = data;
   return (
-    <View style={styles.container}>
-      <View style={styles.header}>
+    <TouchableOpacity style={styles.container} onPress={onPress}>
+      <View style={styles.namePriceContainer}>
         <Text style={styles.name}>{data.pickup.name}</Text>
-        <View>
-          <Text style={styles.price}>
-            {formatDisplayedPrice(data.price)}
-          </Text>
-          <View style={styles.estimationWrapper}>
-            <Icon
-              name="time-outline"
-              color={Palette.darkGrey}
-              size={Spacing.m}
-            />
-            <Text style={styles.estimatedTime}>
-              {convertEstimatedTime(data.estimatedMillisecond)}
-            </Text>
-          </View>
-        </View>
+        <Text style={styles.price}>
+          {formatDisplayedPrice(data.price)}
+        </Text>
+      </View>
+      <View style={styles.estimationWrapper}>
+        <Icon
+          name="time-outline"
+          color={Palette.darkGrey}
+          size={Spacing.m}
+        />
+        <Text style={styles.estimatedTime}>
+          {convertEstimatedTime(data.estimatedMillisecond)}
+        </Text>
       </View>
       <View style={styles.locationContainer}>
         <Icon
-          name={'walk-sharp'}
+          name={'walk'}
           color={Palette.blue}
           size={Spacing.m}
           style={{ marginRight: Spacing.s }}
@@ -117,8 +123,8 @@ const CardJob: React.FC<Props> = ({ data }) => {
             }>{` - ${destination.address}`}</Text>
         </Text>
       </View>
-    </View>
+    </TouchableOpacity>
   );
 };
 
-export default CardJob;
+export default React.memo(CardJob);

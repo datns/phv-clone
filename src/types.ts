@@ -5,7 +5,7 @@ interface LocationType {
 export interface JobType {
   pickup: LocationType;
   destination: LocationType;
-  id: number;
+  id: string;
   price: number;
   estimatedMillisecond: number;
 }

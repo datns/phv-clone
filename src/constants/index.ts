@@ -1,6 +1,8 @@
 export const SCREEN_NAME = {
-  HOME: 'Home',
-  COIN: 'Coin',
-  MENU: 'Menu',
-  JOB: 'Job',
+  HOME: 'home',
+  COIN: 'coin',
+  MENU: 'menu',
+  JOB: 'job',
+  JOB_DETAIL: 'jobDetail',
+  BOTTOM_TAB: 'bottomTab',
 };
