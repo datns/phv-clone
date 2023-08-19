@@ -43,20 +43,22 @@ const JobDetailScreen: React.FC = () => {
     );
   };
   return (
-    <View style={styles.container}>
-      <MapView
-        style={styles.map}
-        provider={PROVIDER_DEFAULT}
-        region={{
-          latitude: 37.78825,
-          longitude: -122.4324,
-          latitudeDelta: 0.015,
-          longitudeDelta: 0.0121,
-        }}
-      />
-      <BottomSheetInfo />
-      {renderBackButton()}
-    </View>
+    <>
+      <View style={styles.container}>
+        <MapView
+          style={styles.map}
+          provider={PROVIDER_DEFAULT}
+          region={{
+            latitude: 37.78825,
+            longitude: -122.4324,
+            latitudeDelta: 0.015,
+            longitudeDelta: 0.0121,
+          }}
+        />
+        <BottomSheetInfo onConfirm={navigation.goBack} />
+        {renderBackButton()}
+      </View>
+    </>
   );
 };
 

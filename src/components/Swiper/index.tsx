@@ -64,6 +64,12 @@ const styles = StyleSheet.create({
 const Swiper = ({ isLoading, onFinishSwipe }: SwiperProps) => {
   const translateX = useSharedValue(0);
 
+  React.useEffect(() => {
+    if (!isLoading) {
+      translateX.value = withTiming(0);
+    }
+  }, [isLoading]);
+
   // @ts-ignore
   const animatedStyle = useAnimatedStyle(() => {
     return {

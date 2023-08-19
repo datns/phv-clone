@@ -1,7 +1,12 @@
-import React, { useCallback, useMemo, useRef, useState } from 'react';
-import BottomSheet from '@gorhom/bottom-sheet';
-import { Dimensions, StyleSheet, Text, View } from 'react-native';
-import { Palette, Spacing, Typography } from '@src/theme';
+import React, { useCallback, useRef, useState } from 'react';
+import BottomSheet, {
+  BottomSheetBackdrop,
+  BottomSheetBackdropProps,
+  BottomSheetModal,
+  TouchableOpacity,
+} from '@gorhom/bottom-sheet';
+import { Dimensions, Image, Text, View } from 'react-native';
+import { Palette, Spacing } from '@src/theme';
 import { formatDisplayedPrice } from '@src/utils';
 import Icon from 'react-native-vector-icons/Ionicons';
 import GraphicJob from '@components/GraphicJob';
@@ -13,137 +18,21 @@ import Animated, {
   withTiming,
 } from 'react-native-reanimated';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import styles from './styles';
+import Images from '@src/images';
+import Button from '@components/Button';
+
+interface Props {
+  onConfirm: () => void;
+}
 
 const HEIGHT = Dimensions.get('window').height;
+const SNAP_POINTS_SHEET = [0.2 * HEIGHT, 0.55 * HEIGHT, 0.9 * HEIGHT];
+const SNAP_POINTS_SHEET_MODAL = [0.6 * HEIGHT];
 
-const styles = StyleSheet.create({
-  contentContainer: {
-    flex: 1,
-    padding: Spacing.l,
-  },
-  handleContainer: {
-    backgroundColor: Palette.darkBlue,
-    padding: Spacing.l,
-    borderTopLeftRadius: Spacing.s,
-    borderTopRightRadius: Spacing.s,
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
-  id: {
-    ...Typography.headingBold,
-    color: Palette.white,
-  },
-  monthVehicleIdWrapper: {
-    paddingHorizontal: Spacing.l,
-    flexGrow: 1,
-  },
-  month: {
-    color: Palette.white,
-    ...Typography.subHeading,
-    marginBottom: Spacing.xs,
-  },
-  jobId: {
-    color: Palette.darkGrey,
-    ...Typography.body,
-  },
-  price: {
-    color: Palette.white,
-    ...Typography.subHeading,
-  },
-  wrapperIcon: {
-    width: Spacing.xxxl,
-    aspectRatio: 1,
-    backgroundColor: Palette.blue,
-    borderRadius: Spacing.xxxl / 2,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  contentHeader: {
-    flexDirection: 'row',
-    marginBottom: Spacing.xl,
-  },
-  type: {
-    color: Palette.blue,
-    ...Typography.subHeadingBold,
-    marginLeft: Spacing.l,
-  },
-  routeContainer: {
-    flexDirection: 'row',
-    paddingHorizontal: Spacing.m,
-  },
-  locationInfo: {
-    marginLeft: Spacing.xl,
-  },
-  name: {
-    ...Typography.subHeadingBold,
-    color: Palette.black,
-    marginBottom: Spacing.s,
-  },
-  address: {
-    ...Typography.body,
-    color: Palette.darkGrey,
-    marginBottom: Spacing.s,
-  },
-  status: {
-    ...Typography.statusBold,
-    color: Palette.green,
-  },
-  completedTime: {
-    marginTop: Spacing.xxxl * 2,
-    color: Palette.blue,
-    ...Typography.body,
-    marginBottom: Spacing.m,
-  },
-  dateContainer: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    marginVertical: Spacing.xxl,
-  },
-  jobDate: {
-    ...Typography.body,
-    color: Palette.darkGrey,
-  },
-  date: {
-    ...Typography.bodyBold,
-    color: Palette.black,
-  },
-  headerOverlay: {
-    position: 'absolute',
-    left: 0,
-    right: 0,
-    top: -0.2 * HEIGHT,
-    height: 0.2 * HEIGHT,
-    backgroundColor: Palette.white,
-  },
-  headerOverlayContent: {
-    alignItems: 'center',
-    paddingVertical: Spacing.m,
-    justifyContent: 'space-between',
-    flex: 1,
-  },
-  vehicleId: {
-    ...Typography.bodyBold,
-    color: Palette.black,
-  },
-  priceHeaderWrapper: {
-    flexDirection: 'row',
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  priceHeader: {
-    ...Typography.heading,
-    marginRight: Spacing.m,
-  },
-});
-
-const BottomSheetInfo: React.FC = () => {
+const BottomSheetInfo: React.FC<Props> = ({ onConfirm }) => {
   const bottomSheetRef = useRef<BottomSheet>(null);
-
-  const snapPoints = useMemo(
-    () => [0.2 * HEIGHT, 0.55 * HEIGHT, 0.9 * HEIGHT],
-    [],
-  );
-
+  const bottomSheetModalRef = useRef<BottomSheetModal>(null);
   const animatedPosition = useSharedValue(0);
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
@@ -195,7 +84,7 @@ const BottomSheetInfo: React.FC = () => {
     };
   }, []);
 
-  const onAnimate = useCallback((_: number, to: number) => {
+  const onAnimate = useCallback((from: number, to: number) => {
     if (to === 2) {
       animatedPosition.value = withTiming(1);
     } else {
@@ -203,12 +92,34 @@ const BottomSheetInfo: React.FC = () => {
     }
   }, []);
 
+  const onDismiss = () => {
+    bottomSheetModalRef?.current?.dismiss();
+    setIsLoading(false);
+  };
+
+  const renderModalBackdrop = (props: BottomSheetBackdropProps) => {
+    return (
+      <BottomSheetBackdrop
+        {...props}
+        appearsOnIndex={0}
+        disappearsOnIndex={-1}
+        opacity={0.4}
+        onPress={onDismiss}
+      />
+    );
+  };
+
+  const onSwipeFinish = () => {
+    setIsLoading(true);
+    bottomSheetModalRef?.current?.present();
+  };
+
   return (
     <>
       <BottomSheet
         ref={bottomSheetRef}
         index={1}
-        snapPoints={snapPoints}
+        snapPoints={SNAP_POINTS_SHEET}
         onAnimate={onAnimate}
         handleComponent={renderHandleComponent}>
         <View style={styles.contentContainer}>
@@ -242,9 +153,7 @@ const BottomSheetInfo: React.FC = () => {
           </View>
           <Swiper
             isLoading={isLoading}
-            onFinishSwipe={() => {
-              setIsLoading(true);
-            }}
+            onFinishSwipe={onSwipeFinish}
           />
         </View>
       </BottomSheet>
@@ -266,6 +175,36 @@ const BottomSheetInfo: React.FC = () => {
           </View>
         </SafeAreaView>
       </Animated.View>
+      <BottomSheetModal
+        ref={bottomSheetModalRef}
+        index={0}
+        backdropComponent={renderModalBackdrop}
+        handleComponent={null}
+        snapPoints={SNAP_POINTS_SHEET_MODAL}>
+        <View style={styles.modalContent}>
+          <TouchableOpacity
+            style={styles.btnCloseModal}
+            onPress={onDismiss}>
+            <Icon
+              name="close"
+              color={Palette.darkGrey}
+              size={Spacing.l}
+            />
+          </TouchableOpacity>
+          <Image
+            source={Images.mapIllustration}
+            style={styles.mapImage}
+            resizeMode="contain"
+          />
+          <Text style={styles.modalTitle}>
+            You have not arrived back at Expo
+          </Text>
+          <Text style={styles.modalDescription}>
+            Please report back at Foyer 1 to complete the job
+          </Text>
+          <Button label="Ok" onPress={onConfirm} />
+        </View>
+      </BottomSheetModal>
     </>
   );
 };
