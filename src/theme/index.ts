@@ -12,6 +12,7 @@ export const Palette = {
   orange: '#F28123',
   green: '#3EC300',
   lightBlue: '#ACCBE1',
+  red: '#E84855',
 };
 
 export const Typography = StyleSheet.create({
