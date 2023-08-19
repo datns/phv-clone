@@ -10,7 +10,6 @@ import { JobType } from '@src/types';
 import { Spacing } from '@src/theme';
 import { useBottomTabBarHeight } from '@react-navigation/bottom-tabs';
 import { useNavigation } from '@react-navigation/native';
-import { SCREEN_NAME } from '@src/constants';
 
 const mock: JobType[] = [
   {
@@ -18,56 +17,24 @@ const mock: JobType[] = [
     pickup: {
       name: 'Expo Hall 7',
       address: 'Expo Hall 7, Singapore',
+      coordinates: {
+        latitude: 10.7740739,
+        longitude: 106.7010521,
+      },
     },
     destination: {
       name: 'Far East Plaza',
       address:
         '14, Scotts Road, Orchard, Singapore, Singapore, 228213',
+      coordinates: {
+        latitude: 10.7774368,
+        longitude: 106.6995022,
+      },
     },
     price: 65,
     estimatedMillisecond: 180000,
-  },
-  {
-    id: '2',
-    pickup: {
-      name: 'Expo Hall 7',
-      address: 'Expo Hall 7, Singapore',
-    },
-    destination: {
-      name: 'Far East Plaza',
-      address:
-        '14, Scotts Road, Orchard, Singapore, Singapore, 228213',
-    },
-    price: 65,
-    estimatedMillisecond: 180000,
-  },
-  {
-    id: '3',
-    pickup: {
-      name: 'Expo Hall 7',
-      address: 'Expo Hall 7, Singapore',
-    },
-    destination: {
-      name: 'Far East Plaza',
-      address:
-        '14, Scotts Road, Orchard, Singapore, Singapore, 228213',
-    },
-    price: 65,
-    estimatedMillisecond: 180000,
-  },
-  {
-    id: '4',
-    pickup: {
-      name: 'Expo Hall 7',
-      address: 'Expo Hall 7, Singapore',
-    },
-    destination: {
-      name: 'Far East Plaza',
-      address:
-        '14, Scotts Road, Orchard, Singapore, Singapore, 228213',
-    },
-    price: 65,
-    estimatedMillisecond: 180000,
+    vehicleId: 'LY-4b3dec',
+    date: new Date().toString(),
   },
 ];
 
@@ -86,7 +53,10 @@ const Ongoing: React.FC = () => {
   const navigation = useNavigation();
   const renderItem: ListRenderItem<JobType> = ({ item }) => {
     const onPress = () => {
-      navigation.navigate(SCREEN_NAME.JOB_DETAIL);
+      // @ts-ignore
+      navigation.navigate('JobDetail', {
+        data: item,
+      });
     };
     return <CardJob data={item} onPress={onPress} />;
   };
@@ -99,7 +69,7 @@ const Ongoing: React.FC = () => {
 
   return (
     <FlatList
-      data={mock.slice(0, 1)}
+      data={mock}
       renderItem={renderItem}
       keyExtractor={keyExtractor}
       showsVerticalScrollIndicator={false}

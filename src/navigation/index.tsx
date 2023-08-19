@@ -3,8 +3,9 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import BottomTabNavigator from '@navigation/BottomTabNavigator';
 import { SCREEN_NAME } from '@src/constants';
 import JobDetailScreen from '@screens/JobDetail';
+import { MainStackParamList } from '@navigation/types';
 
-const Stack = createNativeStackNavigator();
+const Stack = createNativeStackNavigator<MainStackParamList>();
 
 function MainStackNavigator() {
   return (
@@ -13,13 +14,10 @@ function MainStackNavigator() {
         headerShown: false,
       }}>
       <Stack.Screen
-        name={SCREEN_NAME.BOTTOM_TAB}
+        name={'BottomTab'}
         component={BottomTabNavigator}
       />
-      <Stack.Screen
-        name={SCREEN_NAME.JOB_DETAIL}
-        component={JobDetailScreen}
-      />
+      <Stack.Screen name={'JobDetail'} component={JobDetailScreen} />
     </Stack.Navigator>
   );
 }

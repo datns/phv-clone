@@ -11,6 +11,7 @@ export const Palette = {
   darkGrey: '#B0B2B8',
   orange: '#F28123',
   green: '#3EC300',
+  lightBlue: '#ACCBE1',
 };
 
 export const Typography = StyleSheet.create({

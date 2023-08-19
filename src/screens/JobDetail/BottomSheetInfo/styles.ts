@@ -142,8 +142,8 @@ const styles = StyleSheet.create({
     marginBottom: Spacing.xl,
   },
   btnCloseModal: {
-    alignSelf: 'flex-end'
-  }
+    alignSelf: 'flex-end',
+  },
 });
 
 export default styles;
