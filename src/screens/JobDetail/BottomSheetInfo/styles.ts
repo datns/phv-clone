@@ -1,5 +1,6 @@
 import { Dimensions, StyleSheet } from 'react-native';
 import { Palette, Spacing, Typography } from '@src/theme';
+import { SCREEN_HEIGHT } from '@gorhom/bottom-sheet';
 
 const styles = StyleSheet.create({
   contentContainer: {
@@ -74,7 +75,7 @@ const styles = StyleSheet.create({
     color: Palette.green,
   },
   completedTime: {
-    marginTop: Spacing.xxxl * 2,
+    marginTop: SCREEN_HEIGHT * 0.08,
     color: Palette.blue,
     ...Typography.body,
     marginBottom: Spacing.m,

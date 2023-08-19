@@ -1,5 +1,10 @@
 import React from 'react';
-import { StyleSheet, TouchableOpacity, View } from 'react-native';
+import {
+  Platform,
+  StyleSheet,
+  TouchableOpacity,
+  View,
+} from 'react-native';
 import MapView, {
   Marker,
   Polyline,
@@ -73,28 +78,33 @@ const JobDetailScreen: React.FC = () => {
     <>
       <View style={styles.container}>
         <Animated.View style={[styles.map, animatedStyle]}>
-          <MapView
-            style={{ flex: 1 }}
-            provider={PROVIDER_DEFAULT}
-            initialRegion={{
-              latitude: 10.7740739,
-              longitude: 106.7010521,
-              latitudeDelta: 0.0622,
-              longitudeDelta: 0.0121,
-            }}>
-            <Marker coordinate={data.pickup.coordinates} />
-            <Marker coordinate={data.destination.coordinates} />
-            <Polyline
-              coordinates={[
-                data.pickup.coordinates,
-                data.destination.coordinates,
-              ]}
-              strokeColor="#000"
-              strokeColors={[Palette.lightBlue]}
-              strokeWidth={Spacing.s}
-              lineDashPattern={[100, 800]}
-            />
-          </MapView>
+          {Platform.OS === 'android' ? (
+            // TODO: Dont have GG map key to enable map on Android
+            <View />
+          ) : (
+            <MapView
+              style={{ flex: 1 }}
+              provider={PROVIDER_DEFAULT}
+              initialRegion={{
+                latitude: 10.7740739,
+                longitude: 106.7010521,
+                latitudeDelta: 0.0622,
+                longitudeDelta: 0.0121,
+              }}>
+              <Marker coordinate={data.pickup.coordinates} />
+              <Marker coordinate={data.destination.coordinates} />
+              <Polyline // TODO: Can you react-native-map-direction to draw route exactly when having gg map key
+                coordinates={[
+                  data.pickup.coordinates,
+                  data.destination.coordinates,
+                ]}
+                strokeColor="#000"
+                strokeColors={[Palette.lightBlue]}
+                strokeWidth={Spacing.s}
+                lineDashPattern={[100, 800]}
+              />
+            </MapView>
+          )}
         </Animated.View>
         <BottomSheetInfo
           onConfirm={navigation.goBack}

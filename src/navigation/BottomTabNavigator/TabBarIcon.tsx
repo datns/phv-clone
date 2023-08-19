@@ -11,9 +11,9 @@ interface Props {
 
 const styles = StyleSheet.create({
   badge: {
-    width: 12,
+    width: Spacing.s,
     aspectRatio: 1,
-    borderRadius: 12 / 2,
+    borderRadius: Spacing.s / 2,
     position: 'absolute',
     backgroundColor: Palette.red,
     top: 0,

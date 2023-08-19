@@ -73,7 +73,7 @@ const BottomSheetInfo: React.FC<Props> = ({
     const translateY = interpolate(
       animatedPosition.value,
       [0, 1],
-      [0, 0.205 * SCREEN_HEIGHT],
+      [0, 0.21 * SCREEN_HEIGHT],
     );
 
     return {
@@ -141,7 +141,7 @@ const BottomSheetInfo: React.FC<Props> = ({
             <Text style={styles.type}>STANDARD RIDE</Text>
           </View>
           <View style={styles.routeContainer}>
-            <GraphicJob height={Spacing.xxl * 4} />
+            <GraphicJob height={SCREEN_HEIGHT * 0.14} />
             <View style={styles.locationInfo}>
               <Text style={styles.name}>{pickup.name}</Text>
               <Text style={styles.address}>{pickup.address}</Text>

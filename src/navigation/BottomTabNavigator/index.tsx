@@ -51,7 +51,7 @@ function BottomTabNavigator() {
         options={{
           tabBarLabel: 'Job',
           tabBarIcon: ({ focused }) => (
-            <TabBarIcon name="car" focused={focused} hasBadge/>
+            <TabBarIcon name="car" focused={focused} hasBadge />
           ),
         }}
       />

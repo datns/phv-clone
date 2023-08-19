@@ -1,7 +1,6 @@
 import React from 'react';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import BottomTabNavigator from '@navigation/BottomTabNavigator';
-import { SCREEN_NAME } from '@src/constants';
 import JobDetailScreen from '@screens/JobDetail';
 import { MainStackParamList } from '@navigation/types';
 

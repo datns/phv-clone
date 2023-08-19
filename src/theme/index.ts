@@ -1,4 +1,5 @@
 import { StyleSheet } from 'react-native';
+import { responsiveFont, responsiveSize } from '@src/utils';
 
 export const Palette = {
   white: '#FFFFFF',
@@ -17,44 +18,44 @@ export const Palette = {
 
 export const Typography = StyleSheet.create({
   status: {
-    fontSize: 15,
+    fontSize: responsiveFont(15),
     fontWeight: 'normal',
   },
   statusBold: {
-    fontSize: 15,
+    fontSize: responsiveFont(15),
     fontWeight: '600',
   },
   headingBold: {
-    fontSize: 32,
+    fontSize: responsiveFont(32),
     fontWeight: '600',
   },
   heading: {
-    fontSize: 32,
+    fontSize: responsiveFont(32),
   },
   subHeading: {
-    fontSize: 20,
+    fontSize: responsiveFont(20),
     fontWeight: 'normal',
   },
   subHeadingBold: {
-    fontSize: 20,
+    fontSize: responsiveFont(20),
     fontWeight: '600',
   },
   bodyBold: {
-    fontSize: 18,
+    fontSize: responsiveFont(18),
     fontWeight: '600',
   },
   body: {
-    fontSize: 18,
+    fontSize: responsiveFont(18),
     lineHeight: 24,
   },
 });
 
 export const Spacing = {
-  xs: 4,
-  s: 8,
-  m: 16,
-  l: 24,
-  xl: 32,
-  xxl: 40,
-  xxxl: 56,
+  xs: responsiveSize(4),
+  s: responsiveSize(8),
+  m: responsiveSize(16),
+  l: responsiveSize(24),
+  xl: responsiveSize(32),
+  xxl: responsiveSize(40),
+  xxxl: responsiveSize(56),
 };
