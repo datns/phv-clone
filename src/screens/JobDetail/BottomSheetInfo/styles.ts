@@ -98,8 +98,8 @@ const styles = StyleSheet.create({
     position: 'absolute',
     left: 0,
     right: 0,
-    top: -0.2 * Dimensions.get('window').height,
-    height: 0.22 * Dimensions.get('window').height,
+    top: -0.21 * Dimensions.get('window').height,
+    height: 0.2 * Dimensions.get('window').height,
     backgroundColor: Palette.white,
   },
   headerOverlayContent: {
@@ -120,6 +120,7 @@ const styles = StyleSheet.create({
   priceHeader: {
     ...Typography.heading,
     marginRight: Spacing.m,
+    color: Palette.black,
   },
   modalContent: {
     padding: Spacing.l,

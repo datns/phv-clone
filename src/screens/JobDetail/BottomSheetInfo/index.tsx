@@ -6,7 +6,13 @@ import BottomSheet, {
   SCREEN_HEIGHT,
   TouchableOpacity,
 } from '@gorhom/bottom-sheet';
-import { ActivityIndicator, Image, Text, View } from 'react-native';
+import {
+  ActivityIndicator,
+  Image,
+  Platform,
+  Text,
+  View,
+} from 'react-native';
 import { Palette, Spacing } from '@src/theme';
 import { formatDisplayedPrice } from '@src/utils';
 import Icon from 'react-native-vector-icons/Ionicons';
@@ -42,6 +48,9 @@ const SNAP_POINTS_SHEET = [
 ];
 const SNAP_POINTS_SHEET_MODAL = [0.65 * SCREEN_HEIGHT];
 
+const TRANSLATE_Y_OUTPUT =
+  Platform.OS === 'ios' ? 0.21 * SCREEN_HEIGHT : 0.19 * SCREEN_HEIGHT;
+
 const BottomSheetInfo: React.FC<Props> = ({
   onConfirm,
   animatedMapHeight,
@@ -76,7 +85,7 @@ const BottomSheetInfo: React.FC<Props> = ({
     const translateY = interpolate(
       animatedPosition.value,
       [0, 1],
-      [0, 0.2 * SCREEN_HEIGHT],
+      [0, TRANSLATE_Y_OUTPUT],
     );
 
     return {

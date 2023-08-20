@@ -110,7 +110,7 @@ const Swiper = ({ isLoading, onFinishSwipe }: SwiperProps) => {
           {isLoading ? (
             <ActivityIndicator />
           ) : (
-            <Icon name="gesture-swipe" size={Spacing.l} />
+            <Icon name="gesture-swipe" size={Spacing.l} color={Palette.black} />
           )}
         </Animated.View>
       </PanGestureHandler>

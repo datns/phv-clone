@@ -36,7 +36,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 24,
-    backgroundColor: Palette.white,
+    backgroundColor: Palette.lightGrey,
   },
   backButton: {
     width: Spacing.xxl,
@@ -63,7 +63,7 @@ const JobDetailScreen: React.FC = () => {
       <TouchableOpacity
         style={[styles.backButton, { top: inset.top + Spacing.s }]}
         onPress={navigation.goBack}>
-        <Icon name="chevron-back" size={Spacing.l} />
+        <Icon name="chevron-back" size={Spacing.l} color={Palette.black} />
       </TouchableOpacity>
     );
   };
