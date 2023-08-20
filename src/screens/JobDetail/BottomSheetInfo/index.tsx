@@ -6,7 +6,7 @@ import BottomSheet, {
   SCREEN_HEIGHT,
   TouchableOpacity,
 } from '@gorhom/bottom-sheet';
-import { Image, Text, View } from 'react-native';
+import { ActivityIndicator, Image, Text, View } from 'react-native';
 import { Palette, Spacing } from '@src/theme';
 import { formatDisplayedPrice } from '@src/utils';
 import Icon from 'react-native-vector-icons/Ionicons';
@@ -19,7 +19,10 @@ import Animated, {
   useSharedValue,
   withTiming,
 } from 'react-native-reanimated';
-import { SafeAreaView } from 'react-native-safe-area-context';
+import {
+  SafeAreaView,
+  useSafeAreaInsets,
+} from 'react-native-safe-area-context';
 import styles from './styles';
 import Images from '@src/images';
 import Button from '@components/Button';
@@ -37,18 +40,18 @@ const SNAP_POINTS_SHEET = [
   0.55 * SCREEN_HEIGHT,
   0.9 * SCREEN_HEIGHT,
 ];
-const SNAP_POINTS_SHEET_MODAL = [0.6 * SCREEN_HEIGHT];
+const SNAP_POINTS_SHEET_MODAL = [0.65 * SCREEN_HEIGHT];
 
 const BottomSheetInfo: React.FC<Props> = ({
   onConfirm,
   animatedMapHeight,
   data,
 }) => {
+  const [isLoading, setIsLoading] = useState<boolean>(false);
   const bottomSheetRef = useRef<BottomSheet>(null);
   const bottomSheetModalRef = useRef<BottomSheetModal>(null);
   const animatedPosition = useSharedValue(0);
-  const [isLoading, setIsLoading] = useState<boolean>(false);
-
+  const { top } = useSafeAreaInsets();
   const { pickup, destination, price, date, vehicleId } = data;
 
   const jobDate = new Date(date);
@@ -73,7 +76,7 @@ const BottomSheetInfo: React.FC<Props> = ({
     const translateY = interpolate(
       animatedPosition.value,
       [0, 1],
-      [0, 0.21 * SCREEN_HEIGHT],
+      [0, 0.2 * SCREEN_HEIGHT],
     );
 
     return {
@@ -182,6 +185,17 @@ const BottomSheetInfo: React.FC<Props> = ({
               size={Spacing.l}
             />
           </View>
+          {isLoading && (
+            <ActivityIndicator
+              color={Palette.orange}
+              style={[
+                styles.loadingIndicator,
+                {
+                  top: top + Spacing.m,
+                },
+              ]}
+            />
+          )}
         </SafeAreaView>
       </Animated.View>
       <BottomSheetModal

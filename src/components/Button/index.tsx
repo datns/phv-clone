@@ -14,7 +14,7 @@ const styles = StyleSheet.create({
     backgroundColor: Palette.darkBlue,
     justifyContent: 'center',
     alignItems: 'center',
-    paddingVertical: Spacing.l,
+    paddingVertical: Spacing.m,
   },
   label: {
     ...Typography.subHeadingBold,

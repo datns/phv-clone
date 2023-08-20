@@ -1,6 +1,7 @@
 import { Dimensions, StyleSheet } from 'react-native';
 import { Palette, Spacing, Typography } from '@src/theme';
 import { SCREEN_HEIGHT } from '@gorhom/bottom-sheet';
+import { responsiveSize } from '@src/utils';
 
 const styles = StyleSheet.create({
   contentContainer: {
@@ -98,7 +99,7 @@ const styles = StyleSheet.create({
     left: 0,
     right: 0,
     top: -0.2 * Dimensions.get('window').height,
-    height: 0.2 * Dimensions.get('window').height,
+    height: 0.22 * Dimensions.get('window').height,
     backgroundColor: Palette.white,
   },
   headerOverlayContent: {
@@ -125,8 +126,8 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   mapImage: {
-    height: 200,
-    width: 280,
+    height: responsiveSize(200),
+    width: responsiveSize(280),
     alignSelf: 'center',
   },
   modalTitle: {
@@ -144,6 +145,10 @@ const styles = StyleSheet.create({
   },
   btnCloseModal: {
     alignSelf: 'flex-end',
+  },
+  loadingIndicator: {
+    position: 'absolute',
+    right: Spacing.l,
   },
 });
 

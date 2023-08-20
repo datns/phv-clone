@@ -46,7 +46,6 @@ export const Typography = StyleSheet.create({
   },
   body: {
     fontSize: responsiveFont(18),
-    lineHeight: 24,
   },
 });
 
